@@ -1,0 +1,16 @@
+.noclass {
+    margin: auto;
+    padding-top: 0vh;
+    width: fit-content;
+}
+.noclass h2 {
+    text-align: center;
+}
+
+/* .listItem {
+    font-size: 1.5em;
+} */
+
+.noclassListItem {
+    font-size: 1.1em;
+}
