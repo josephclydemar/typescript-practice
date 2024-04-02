@@ -1,8 +1,37 @@
-import { ReactNode, useState, useReducer, useRef, useEffect, useCallback, useMemo } from 'react';
+import { ReactNode, ChangeEvent, useContext, useState, useReducer, useRef, useEffect, useCallback, useMemo, Context } from 'react';
+
+import TitleContext from '../contexts/TitleContext';
+import ThemeContext from '../contexts/ThemeContext';
 
 import List from './List';
 
 import './css/HooksTest.css';
+
+
+type TitleContextType = {
+  title: string,
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+};
+
+interface ThemeType {
+  currentTheme: 'light-mode' | 'dark-mode';
+  backgroundColor: string;
+  textColor: string;
+}
+
+interface ThemeAction {
+  actionType: 'dark-mode' | 'light-mode';
+}
+
+
+type ThemeContextType = {
+  theme: ThemeType,
+  themeDispatch: React.Dispatch<ThemeAction>;
+};
+
+
+
+
 
 interface Geo {
   lat: string;
@@ -89,6 +118,9 @@ function powerReducerFunc(state: PowerType, action: PowerAction): PowerType {
       case 'increment-base':
         newBase = state.base + 1;
         hasError = newBase > 5;
+        if(newBase == 0) {
+          newBase = 1;
+        }
         if(hasError) {
           return {
             ...state,
@@ -107,6 +139,9 @@ function powerReducerFunc(state: PowerType, action: PowerAction): PowerType {
       case 'decrement-base':
         newBase = state.base - 1;
         hasError = newBase < -5;
+        if(newBase == 0) {
+          newBase = -1;
+        }
         if(hasError) {
           return {
             ...state,
@@ -141,6 +176,10 @@ function fibFunc(n: number): number {
 
 
 export default function HooksTest() {
+  const { setTitle } = useContext<TitleContextType>(TitleContext as Context<TitleContextType>);
+  const { theme, themeDispatch } = useContext<ThemeContextType>(ThemeContext as Context<ThemeContextType>);
+
+
   // Changes in States triggers a Component rerender
   const [num, setNum] = useState<number>(0);
   const [product, setProduct] = useState<number>(1);
@@ -148,7 +187,10 @@ export default function HooksTest() {
   const [countState, setCountState] = useState<number>(0);
 
 
-  const [powerState, powerDispatch] = useReducer<(state: PowerType, action: PowerAction) => PowerType>(powerReducerFunc, { base: 0, exponent: 0, result: 0, error: null });
+  const [powerState, powerDispatch] = useReducer<(state: PowerType, action: PowerAction) => PowerType>(
+    powerReducerFunc,
+    { base: 1, exponent: 0, result: 0, error: null }
+  );
 
 
   const countRef = useRef<number>(0);
@@ -197,38 +239,58 @@ export default function HooksTest() {
   return (
     <div>
       <div>
-        <h4>Times Two Value: { product } | Num Value: { num } | Fib Result: { result }</h4>
-        <button onClick={timesTwo}>Multiply By 2</button>
+        <input className='textInput' style={{ backgroundColor: theme.backgroundColor, color: theme.textColor, borderColor: theme.textColor }} type='text' placeholder='Type something for practice using the Context API' onChange={function (e: ChangeEvent<HTMLInputElement>): void {
+          console.log(e.target.value);
+          setTitle(() => e.target.value);
+        }}/>
         <div>
-          <input className='textInput' ref={inputRef} type='text' placeholder='Type something...' />
-          <button onClick={submitInput}>Submit</button>
+          <button style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }} onClick={function (): void {
+            switch(theme.currentTheme) {
+              case 'light-mode':
+                themeDispatch({ actionType: 'dark-mode' });
+                break;
+              case 'dark-mode':
+                themeDispatch({ actionType: 'light-mode' });
+                break;
+            }
+          }}>Change theme to { theme.currentTheme === 'light-mode' ? 'Light Mode' : 'Dark Mode' }</button>
+        </div>
+      </div>
+      <div>
+        <h4>Times Two Value: { product } | Num Value: { num } | Fib Result: { result }</h4>
+        <button onClick={timesTwo}
+                style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }}>Multiply By 2</button>
+        <div>
+          <input style={{ backgroundColor: theme.backgroundColor, color: theme.textColor, borderColor: theme.textColor }} className='textInput' ref={inputRef} type='text' placeholder='Type something...' />
+          <button onClick={submitInput}
+                  style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }}>Submit</button>
         </div>
         <div>
           <h4>Base: { powerState.base } | Exponent: { powerState.exponent } | Result: { powerState.result }</h4>
           <p><b>{ powerState.error === null ? 'No Error' : powerState.error }</b></p>
           <div>
-            <button onClick={function (): void {
+            <button style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }} onClick={function (): void {
               powerDispatch({ actionType: 'decrement-exponent' });
             }}>Decrement Exponent</button>
-            <button onClick={function (): void {
+            <button style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }} onClick={function (): void {
               powerDispatch({ actionType: 'increment-exponent' });
             }}>Increment Exponent</button>
           </div>
           <div>
-          <button onClick={function (): void {
+          <button style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }} onClick={function (): void {
               powerDispatch({ actionType: 'decrement-base' });
             }}>Decrement Base</button>
-            <button onClick={function (): void {
+            <button style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }} onClick={function (): void {
               powerDispatch({ actionType: 'increment-base' });
             }}>Increment Base</button>
           </div>
         </div>
         <div>
-          <button onClick={function (): void {
+          <button style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }} onClick={function (): void {
             countRef.current += 1;
             console.log(countRef);
           }}>Count Ref {countRef.current}</button>
-          <button onClick={function (): void {
+          <button style={{ color: theme.backgroundColor, backgroundColor: theme.textColor }} onClick={function (): void {
             setCountState(prev => prev + 1);
           }}>Count State {countState}</button>
         </div>
