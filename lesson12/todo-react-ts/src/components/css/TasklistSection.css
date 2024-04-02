@@ -1,0 +1,87 @@
+
+.tasklist-pending {
+    position: absolute;
+    top: 9vh;
+    left: 9vw;
+    background-color: #3a3a3a;
+    color: #fff;
+    padding-top: 0.6rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    width: 25vw;
+    height: 85vh;
+    border-radius: 0.6rem;
+}
+
+.tasklist-inprogress {
+    position: absolute;
+    top: 9vh;
+    left: 39vw;
+    background-color: #3a3a3a;
+    color: #fff;
+    padding-top: 0.6rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    width: 25vw;
+    height: 85vh;
+    border-radius: 0.6rem;
+}
+
+.tasklist-completed {
+    position: absolute;
+    top: 9vh;
+    left: 69vw;
+    background-color: #3a3a3a;
+    color: #fff;
+    padding-top: 0.6rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    width: 25vw;
+    height: 85vh;
+    border-radius: 0.6rem;
+}
+
+
+
+.tasklist {
+    height: 85%;
+    overflow-y: scroll;
+}
+
+.tasklist::-webkit-scrollbar {
+    width: 0.4rem;
+    background-color: #fff;
+}
+
+.taskitem {
+    background-color: #fff;
+    color: #000;
+    padding-top: 0.1rem;
+    padding-bottom: 0.5rem;
+    padding-left: 2.5rem;
+    padding-right: 2.3rem;
+    margin: 0.5rem;
+    width: 80%;
+    border-radius: 0.6rem;
+}
+
+.lifecycleStageInput select {
+    padding: 0.3rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    background-color: #fff;
+    color: #000;
+    margin: 0.1rem;
+}
+
+.timelineStatusInput select {
+    padding: 0.3rem;
+    font-size: 1rem;
+    border-radius: 0.3rem;
+    background-color: #fff;
+    color: #000;
+    margin: 0.1rem;
+}
