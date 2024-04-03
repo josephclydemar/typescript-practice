@@ -38,6 +38,9 @@ interface Task {
 
 type TasksManipulateAction = {
     taskId: string;
+    taskTitle?: string;
+    taskObjectives?: string[];
+    taskSubtasks?: SubTask[];
     actionType: TasksManipulate;
 }
 

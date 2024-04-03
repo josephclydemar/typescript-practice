@@ -1,4 +1,4 @@
-import { ReactElement, useContext, Context } from 'react';
+import { ReactElement, useContext, useRef, useEffect, Context } from 'react';
 
 import TasksContext from '../contexts/TasksContext';
 
@@ -8,15 +8,23 @@ import { Task, TasksContextType, TasksManipulate } from '../types/Task';
 type TaskItemProps = {
     clsNameForItem?: string;
     cssStyle?: CssStyle;
+    key: string | number;
     taskItem: Task;
 }
 
-export default function TaskItem({ taskItem, clsNameForItem='noclass-taskitem' }: TaskItemProps) {
-    const { tasksDispatch } = useContext<TasksContextType>(TasksContext as Context<TasksContextType>);
+export default function TaskItem({ key, taskItem, clsNameForItem='noclass-taskitem' }: TaskItemProps) {
+    const { tasks, tasksDispatch } = useContext<TasksContextType>(TasksContext as Context<TasksContextType>);
     const { id, title, objectives, lifecycleStage, timelineStatus } = taskItem;
 
+    const newAddedTaskRef = useRef<HTMLDivElement | null>(null);
+    useEffect(function (): void {
+        newAddedTaskRef.current?.scrollIntoView({
+            behavior: 'smooth'
+        });
+    }, [tasks]);
+
     return (
-        <div className={ clsNameForItem }>
+        <div key={key} ref={newAddedTaskRef} className={ clsNameForItem }>
             <div>
                 <h5>{ title }</h5>
                 <div>
@@ -51,6 +59,9 @@ export default function TaskItem({ taskItem, clsNameForItem='noclass-taskitem' }
                 </select>
             </div>
             <div>
+                <button onClick={function (): void {
+                    tasksDispatch({ taskId: id, actionType: TasksManipulate.EditTask });
+                }}>Edit Task</button>
                 <button onClick={function (): void {
                     tasksDispatch({ taskId: id, actionType: TasksManipulate.DeleteTask });
                 }}>Delete Task</button>

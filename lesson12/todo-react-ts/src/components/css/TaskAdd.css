@@ -1,0 +1,46 @@
+.task-add {
+    padding-top: 4rem;
+    padding-left: 1.1rem;
+}
+
+.task-addbox {
+    position: fixed;
+    top: 15vh;
+    left: 30vw;
+    z-index: 5;
+    width: 30vw;
+    height: 50vh;
+    background-color: #fff;
+
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: -2px 8px 400px 200px rgba(0,0,0,0.88);
+    -webkit-box-shadow: -2px 8px 400px 200px rgba(0,0,0,0.88);
+    -moz-box-shadow: -2px 8px 400px 200px rgba(0,0,0,0.88);
+
+    animation: addbox 0.3s ease-out;
+}
+
+@keyframes addbox {
+    0% {
+        top: -100vh;
+        opacity: 0;
+    }
+    75% {
+        opacity: 0;
+    }
+    100% {
+        top: 15vh;
+        opacity: 1;
+    }
+}
+
+
+
+.text-input {
+    padding: 1rem;
+    font-size: 1.2rem;
+    width: 90%;
+    margin: 0.2rem;
+    border-radius: 0.5rem;
+}

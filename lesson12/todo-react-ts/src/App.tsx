@@ -1,6 +1,6 @@
 import './components/css/Heading.css';
 import './components/css/TasklistSection.css';
-import './components/css/TaskOperations.css';
+import './components/css/TaskAdd.css';
 
 import { useContext, Context } from 'react';
 
@@ -11,15 +11,15 @@ import { Task, TasksContextType, TaskLifecycleStage } from './types/Task';
 import Heading from './components/Heading';
 import Section from './components/Section';
 import TaskList from './components/TaskList';
-import TaskOperations from './components/TaskOperations';
+import TaskAdd from './components/TaskAdd';
 
 function App(): JSX.Element {
   const { tasks } = useContext<TasksContextType>(TasksContext as Context<TasksContextType>);
   return (
     <>
       <Heading title='My Todo App' clsName='mainTitle'/>
-      <Section clsName='task-operations'>
-        <TaskOperations />
+      <Section clsName='task-add'>
+        <TaskAdd />
       </Section>
       <Section title='Pending Tasks' clsName='tasklist-pending'>
         <TaskList items={tasks.filter(function (item: Task): boolean {
