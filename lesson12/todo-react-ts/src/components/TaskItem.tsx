@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useRef, useEffect, Context } from 'react';
+import { ReactElement, useContext, useRef, useEffect, Context, useState, ChangeEvent } from 'react';
 
 import TasksContext from '../contexts/TasksContext';
 
@@ -8,7 +8,7 @@ import { Task, TasksContextType, TasksManipulate } from '../types/Task';
 type TaskItemProps = {
     clsNameForItem?: string;
     cssStyle?: CssStyle;
-    key: string | number;
+    key?: string | number;
     taskItem: Task;
 }
 
@@ -22,6 +22,15 @@ export default function TaskItem({ key, taskItem, clsNameForItem='noclass-taskit
             behavior: 'smooth'
         });
     }, [tasks]);
+
+
+    const [lifecycleStageSample, setLifecycleStageSample] = useState<string>('');
+
+    
+    useEffect(function (): void {
+        console.log('Key:', key);
+        console.log('Task Lifecycle Stage:', lifecycleStageSample);
+    }, [lifecycleStageSample]);
 
     return (
         <div key={key} ref={newAddedTaskRef} className={ clsNameForItem }>
@@ -41,7 +50,9 @@ export default function TaskItem({ key, taskItem, clsNameForItem='noclass-taskit
                 <p><b>Project Timeline Status:</b> { timelineStatus }</p>
             </div>
             <div className='lifecycleStageInput'>
-                <select name='task-lifecycle-stage' id='task-lifecycle-stage'>
+                <select name='task-lifecycle-stage' id='task-lifecycle-stage' onChange={function (e: ChangeEvent<HTMLSelectElement>): void {
+                    setLifecycleStageSample(() => e.target.value);
+                }}>
                     <option defaultChecked value='Set Task Lifecycle Stage'>Set Lifecycle Stage</option>
                     <option value='Pending'>Pending</option>
                     <option value='On-Hold'>On-Hold</option>
