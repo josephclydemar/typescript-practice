@@ -1,5 +1,5 @@
-import { PropsWithChildren } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { PropsWithChildren } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     sectionContainer: {
@@ -20,20 +20,16 @@ const styles = StyleSheet.create({
 
 type SectionProps = PropsWithChildren<{
     title: string;
-  }>;
-  
-export default function Section({children, title}: SectionProps): JSX.Element {
+}>;
+
+export default function Section({
+    children,
+    title,
+}: SectionProps): JSX.Element {
     return (
-      <View style={styles.sectionContainer}>
-        <Text
-          style={[
-            styles.sectionTitle,
-          ]}>
-          {title}
-        </Text>
-        <View>
-          {children}
+        <View style={styles.sectionContainer}>
+            <Text style={[styles.sectionTitle]}>{title}</Text>
+            <View>{children}</View>
         </View>
-      </View>
     );
-  }
+}
