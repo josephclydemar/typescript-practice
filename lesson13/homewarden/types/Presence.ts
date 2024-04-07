@@ -1,6 +1,5 @@
-
-
 interface Presence {
+    id: string;
     time: string;
     day: string;
 }

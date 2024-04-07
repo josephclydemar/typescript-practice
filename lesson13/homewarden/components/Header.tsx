@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 type HeaderProps = {
     title: string;
-}
+};
 
 const styles = StyleSheet.create({
     headerTitle: {
