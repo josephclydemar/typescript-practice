@@ -1,7 +1,0 @@
-ios
-android
-.bundle
-node_modules
-*.json
-*.config.js
-*.md
