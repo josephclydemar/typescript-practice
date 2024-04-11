@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+
+import { useEffect, useState } from 'react'
+import VideoPlayer from './Components/VideoPlayer'
+
+
+const videoIds = [
+  'chainsaw0', 
+  'chainsaw2', 
+  'demonslayer8', 
+  'demonslayer9', 
+  'demonslayer10', 
+  'demonslayer11'
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState<number>(0);
+  const [videoId, setVideoId] = useState<string>(videoIds[count]);
+  // const [videoPlayer, setVideoPlayer] = useState<ReactNode | null>(<VideoPlayer videoId={videoId} />);
+
+  useEffect(function (): void {
+    console.log(count);
+    setVideoId(() => videoIds[count]);
+  }, [count]);
+
+  useEffect(function (): void {
+    console.log(videoId);
+  }, [videoId]);
+
+  // useEffect(function () {
+  //   setVideoPlayer(() => null);
+  //   setVideoPlayer(() => <VideoPlayer videoId={videoId} />);
+  // }, [videoId]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      <button onClick={function () {
+        // location.reload();
+        if(count >= videoIds.length - 1) {
+          setCount(() => 0);
+        } else {
+          setCount(prev => prev + 1);
+        }
+      }}>Next Video!!</button>
+      <br/>
+      <VideoPlayer videoId={ videoId }></VideoPlayer>
+    </div>
   )
 }
 
-export default App
+
+
+export default App;

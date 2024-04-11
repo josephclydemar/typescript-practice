@@ -1,9 +1,13 @@
 {
-  "name": "video-streaming-server",
+  "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
   "author": "Clyde Mar",
   "license": "MIT",
+  "scripts": {
+    "start": "node ./dist/server.js",
+    "ts-watch": "npx tsc --w"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "date-fns": "^3.6.0",
