@@ -9,7 +9,7 @@ type SectionProps = PropsWithChildren<{
 const styles = StyleSheet.create({
     sectionContainer: {
         paddingTop: 32,
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         paddingHorizontal: 24,
     },
     sectionTitle: {
