@@ -6,7 +6,7 @@ export default function DailyRecordsScreen() {
     return (
         <View
             style={{
-                height: 589,
+                height: '89.3%',
                 backgroundColor: '#fff',
             }}>
             <Section title="Daily Records Screen">

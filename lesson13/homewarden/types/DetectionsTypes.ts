@@ -1,7 +1,7 @@
-interface Presence {
+interface Detection {
     id: string;
     time: string;
     day: string;
 }
 
-export type { Presence };
+export type { Detection };
