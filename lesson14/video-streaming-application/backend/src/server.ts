@@ -1,9 +1,10 @@
 import express, { Request, Response, Express} from 'express';
 import path from 'path';
-import fs, { ReadStream } from 'fs';
+import fs  from 'fs';
 import { format } from 'date-fns';
 import { v4 as uuid } from 'uuid';
-
+// import * as io from 'socket.io-client';
+// import { Socket } from 'socket.io-client';
 
 type HTTPVideoHeaders = {
     'Content-Range': string;
@@ -12,56 +13,57 @@ type HTTPVideoHeaders = {
     'Content-Type': string;
 }
 
+
+
+
 const PORT: number = 9500;
 const app: Express = express();
 
 
 app.use(express.static(path.join(__dirname, '..', '..', 'frontend', 'dist')));
 
-
-// app.all('/', (req: Request, res: Response): void => {
-//     res.status(200).sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-// });
-
+const videoPath = path.join('videos', '1714142493759.avi');
 
 app.get('/api/video/:id', (req: Request, res: Response): void => {
     console.log(`${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}   ${uuid()}\t${req.protocol}  ${req.method} ${req.url}`);
+
     // Ensure there is a range given for the video
     const range = req.headers.range;
-    if(!range) {
-        res.status(400).send('Requires Range Header');
+    if (!range) {
+        res.status(400).send("Request Range header missing");
         return;
     }
-    
-    // get video stats (about 61MB)
-    const videoPath: string = path.join(__dirname, 'videos', `${req.params.id}.mp4`);
-    const videoSize: number = fs.statSync(videoPath).size;
 
-    // Parse Range
-    // Example: bytes=32324-
-    const CHUNK_SIZE: number = 10 ** 6; // 1MB
-    const rangeStart: number = Number(range.replace(/\D/g, ''));
-    const rangeEnd: number = Math.min(rangeStart + CHUNK_SIZE, videoSize-1);
+    // Check if the video file exists
+    if (!fs.existsSync(videoPath)) {
+        res.status(404).send("Video file not found");
+        return;
+    }
 
-    // Create headers
-    const contentLength: number = rangeEnd - rangeStart + 1;
-    const headers: HTTPVideoHeaders = {
-        'Content-Range': `bytes ${rangeStart}-${rangeEnd}/${videoSize}`,
-        'Accept-Ranges': 'bytes',
-        'Content-Length': `${contentLength}`,
-        'Content-Type': 'video/mp4'
+    // Obtain video file stats
+    const videoSize = fs.statSync(videoPath).size;
+
+    // Parse range headers
+    const CHUNK_SIZE = 10 ** 6; // 1MB
+    const START: number = Number(range.replace(/\D/g, ""));
+    const end = Math.min(START + CHUNK_SIZE, videoSize - 1);
+
+    // Calculate content length and set response headers
+    const contentLength = end - START + 1;
+    const headers = {
+        "Content-Range": `bytes ${START}-${end}/${videoSize}`,
+        "Accept-Ranges": "bytes",
+        "Content-Length": contentLength,
+        "Content-Type": "video/avi",
     };
 
-    // HTTP Status 206 for Partial Content
+    // Send partial content response (206 Partial Content)
     res.writeHead(206, headers);
 
-    // create video read stream for this particular chunk
-    const videoStream: ReadStream = fs.createReadStream(videoPath, { start: rangeStart, end: rangeEnd });
-    
-    // Stream the video chunk to the client
+    // Create read stream for video file and pipe it to response
+    const videoStream = fs.createReadStream(videoPath, { start: START, end });
     videoStream.pipe(res);
 });
-
 
 
 app.all('*', (req: Request, res: Response): void => {
@@ -71,3 +73,30 @@ app.all('*', (req: Request, res: Response): void => {
 app.listen(PORT, function (): void {
     console.log(`${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}   ${uuid()}\tListening on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

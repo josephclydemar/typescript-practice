@@ -17,7 +17,7 @@ export default function VideoPlayer({ videoId }: VideoPlayerProps) {
     return (
         <div>
             <video ref={videoRef} width='845' height='480' controls autoPlay>
-                <source src={ `/api/video/${videoId}` } type='video/mp4'></source>
+                <source src={ `http://localhost:8500/api/v1/detections/${videoId}` } type='video/mp4'></source>
                 Wala!!!
             </video>
         </div>
