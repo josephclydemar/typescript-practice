@@ -1,0 +1,22 @@
+{
+  "name": "video-uploader",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Clyde Mar",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "5.9.1",
+    "mongoose": "^8.3.2",
+    "multer": "^1.4.5-lts.1",
+    "multer-gridfs-storage": "^5.0.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "resolutions": {
+    "multer-gridfs-storage/mongodb": "^5.9.1"
+  }
+}
